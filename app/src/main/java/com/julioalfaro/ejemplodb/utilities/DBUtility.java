@@ -64,6 +64,22 @@ public class DBUtility {
         return lista;
     }
 
+    public Mascota getMascota(int id) {
+        Mascota mascota = null;
+        String query = "SELECT id, nombre, fecha_nac, sexo FROM mascota WHERE id = " + id ;
+        getDB(true);
+        Cursor c = db.rawQuery(query, null);
+        if (c != null && c.getCount() > 0) {
+            c.moveToFirst();
+            mascota = new Mascota();
+            mascota.setNombre(c.getString(c.getColumnIndex("nombre")));
+            mascota.setId(id);
+            mascota.setFecha_nac(c.getString(c.getColumnIndex("fecha_nac")));
+            mascota.setSexo(c.getInt(c.getColumnIndex("sexo")));
+        }
+        return mascota;
+    }
+
     class DBHelper extends SQLiteOpenHelper {
 
         public DBHelper(@Nullable Context context) {
